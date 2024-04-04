@@ -22,18 +22,20 @@ class PDFPageExtractor:
 
         for page_number in range(pdf_document.page_count):
             page = pdf_document[page_number]
-            image = page.get_pixmap()
+            image = page.get_pixmap(dpi=200)
 
             # Convert the PyMuPDF image to PIL Image
             pil_image = Image.frombytes(
-                "RGB", [image.width, image.height], image.samples)
+                "RGB", [image.width, image.height], image.samples
+            )
 
             # Save the image to the output folder
-            image_filename = f"{Constants.OUTPUT_FOLDER}{self.pdf_name}/page_{page_number + 1}.png"
+            image_filename = (
+                f"{Constants.OUTPUT_FOLDER}{self.pdf_name}/page_{page_number + 1}.png"
+            )
             pil_image.save(image_filename)
 
-            print(
-                f"Page {page_number + 1} extracted and saved as {image_filename}")
+            print(f"Page {page_number + 1} extracted and saved as {image_filename}")
 
         pdf_document.close()
 
