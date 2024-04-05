@@ -16,8 +16,13 @@ class PDFPageExtractor:
         # Create output folder if it doesn't exist
         if not os.path.exists(Constants.OUTPUT_FOLDER + self.pdf_name):
             os.makedirs(Constants.OUTPUT_FOLDER + self.pdf_name)
+            self.already_exist = False
+        else:
+            self.already_exist = True
 
     def extract_pages_to_images(self):
+        if self.already_exist:
+            return
         pdf_document = fitz.open(self.pdf_path)
 
         for page_number in range(pdf_document.page_count):
