@@ -27,7 +27,7 @@ class PDFPageExtractor:
 
         for page_number in range(pdf_document.page_count):
             page = pdf_document[page_number]
-            image = page.get_pixmap(dpi=200)
+            image = page.get_pixmap(dpi=250)
 
             # Convert the PyMuPDF image to PIL Image
             pil_image = Image.frombytes(
