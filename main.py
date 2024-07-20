@@ -1,6 +1,7 @@
 import fitz  # PyMuPDF
 from PIL import Image
 import os
+import threading
 
 
 class Constants:
@@ -19,6 +20,7 @@ class PDFPageExtractor:
             self.already_exist = False
         else:
             self.already_exist = True
+        self.extract_pages_to_images()
 
     def extract_pages_to_images(self):
         if self.already_exist:
@@ -47,7 +49,14 @@ class PDFPageExtractor:
 
 inout_files = os.listdir(Constants.INPUT_FOLDER)
 
+tasks = []
 for file in inout_files:
-    input_pdf_path = Constants.INPUT_FOLDER + file
-    pdf_extractor = PDFPageExtractor(input_pdf_path)
-    pdf_extractor.extract_pages_to_images()
+    tasks.append(
+        threading.Thread(target=PDFPageExtractor, args=(Constants.INPUT_FOLDER + file,))
+    )
+
+for task in tasks:
+    task.start()
+
+for task in tasks:
+    task.join()
