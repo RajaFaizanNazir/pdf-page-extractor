@@ -153,3 +153,4 @@ cython_debug/
 
 input/
 output/
+.DS_Store
